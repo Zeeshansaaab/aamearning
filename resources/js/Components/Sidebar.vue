@@ -1,5 +1,5 @@
 <template>
-  <nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <nav class="sidebar sidebar-offcanvas" id="sidebar" style="height: 100vh; overflow:scroll;">
     <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
       <Link as='a' class="sidebar-brand brand-logo" href="#">
         <ApplicationLogo width='177px'/>
@@ -28,5 +28,25 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-
 </script>
+<style scoped>
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(0, 0, 0);
+}
+</style>
