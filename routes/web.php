@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Plan;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -17,13 +16,8 @@ use Illuminate\Foundation\Application;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+    return redirect()->route('login');
+})->middleware('guest');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -42,30 +42,12 @@ const open = ref(false);
 </script>
 
 <template>
-    <div class="relative">
-        <div @click="open = ! open">
-            <slot name="trigger" />
+    <li class="nav-item  nav-profile dropdown border-0">
+        <a class="nav-link dropdown-toggle" id="profileDropdown" data-toggle="dropdown">
+            <slot name="header"></slot>
+        </a>
+        <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
+          <slot name="items"></slot>
         </div>
-
-        <!-- Full Screen Dropdown Overlay -->
-        <div v-show="open" class="fixed inset-0 z-40" @click="open = false"></div>
-
-        <transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="transform opacity-0 scale-95"
-            enter-to-class="transform opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-75"
-            leave-from-class="transform opacity-100 scale-100"
-            leave-to-class="transform opacity-0 scale-95">
-            <div v-show="open"
-                    class="absolute z-50 mt-2 rounded-md shadow-lg"
-                    :class="[widthClass, alignmentClasses]"
-                    style="display: none;"
-                    @click="open = false">
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
-                    <slot name="content" />
-                </div>
-            </div>
-        </transition>
-    </div>
+    </li>
 </template>
