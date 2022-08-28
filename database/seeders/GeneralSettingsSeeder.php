@@ -20,7 +20,13 @@ class GeneralSettingsSeeder extends Seeder
         DB::table('general_settings')->truncate();
         
         GeneralSetting::insert(
-            [ 
+            [
+                // Site info settings
+                ['group' => 'site_info', 'type' => 'text', 'name' => 'Site name', 'key' => 'site_name', 'value' => 'AAM Earning', 'is_required' => null, 'created_at' => Carbon::now()],
+                ['group' => 'site_info', 'type' => 'text', 'name' => 'Site phone', 'key' => 'site_phone', 'value' => '+923001309060', 'is_required' => null, 'created_at' => Carbon::now()],
+                ['group' => 'site_info', 'type' => 'email', 'name' => 'Site email', 'key' => 'site_email', 'value' => 'Contact@aamclick.com', 'is_required' => null, 'created_at' => Carbon::now()],
+                ['group' => 'site_info', 'type' => 'text', 'name' => 'System info', 'key' => 'system_info', 'value' => '[]', 'is_required' => null, 'created_at' => Carbon::now()],
+
                 [
                     'group' => 'currency_setting',
                     'type' => 'text',
@@ -54,33 +60,6 @@ class GeneralSettingsSeeder extends Seeder
                     'name' => 'Secondary color',
                     'key' => 'secondary_color',
                     'value' => '001d4a',
-                    'is_required' => null,
-                    'created_at' => Carbon::now()
-                ],
-                [
-                    'group' => 'site_info',
-                    'type' => 'text',
-                    'name' => 'Site name',
-                    'key' => 'site_name',
-                    'value' => 'AAM Earning',
-                    'is_required' => null,
-                    'created_at' => Carbon::now()
-                ],
-                [
-                    'group' => 'site_info',
-                    'type' => 'text',
-                    'name' => 'Site phone',
-                    'key' => 'site_phone',
-                    'value' => '+923001309060',
-                    'is_required' => null,
-                    'created_at' => Carbon::now()
-                ],
-                [
-                    'group' => 'site_info',
-                    'type' => 'email',
-                    'name' => 'Site email',
-                    'key' => 'site_email',
-                    'value' => 'Contact@aamclick.com',
                     'is_required' => null,
                     'created_at' => Carbon::now()
                 ],
@@ -135,15 +114,6 @@ class GeneralSettingsSeeder extends Seeder
                     'name' => 'Plan subscribe commission',
                     'key' => 'plan_subscribe_commission',
                     'value' => '1',
-                    'is_required' => null,
-                    'created_at' => Carbon::now()
-                ],
-                [
-                    'group' => 'site_info',
-                    'type' => 'text',
-                    'name' => 'System info',
-                    'key' => 'system_info',
-                    'value' => '[]',
                     'is_required' => null,
                     'created_at' => Carbon::now()
                 ],

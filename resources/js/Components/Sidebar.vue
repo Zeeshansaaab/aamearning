@@ -1,52 +1,91 @@
 <template>
-  <nav class="sidebar sidebar-offcanvas" id="sidebar" style="height: 100vh; overflow:scroll;">
-    <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
-      <Link as='a' class="sidebar-brand brand-logo" href="#">
-        <ApplicationLogo width='177px'/>
-      </Link>
-    </div>
-    <ul class="nav mt-5">
-      <li class="nav-item">
-        <Link class="nav-link" as="a" :href="route('dashboard')">
-          <i class="mdi mdi-home menu-icon"></i>
-            <span class="menu-title">Dashboard</span>
-        </Link>
-      </li>
-      <li class="nav-item sidebar-actions">
-        <div class="nav-link">
-          <div class="mt-4">
-            <ul class="mt-4 pl-0">
-              <li><Link :href="route('logout')" method="post" >Logout</Link></li>
-            </ul>
-          </div>
+  <div class="sidebar bg--dark" :class="{ 'open' : open}">
+    <button class="res-sidebar-close-btn" @click="open=false"></button>
+    <div class="sidebar__inner">
+        <div class="sidebar__logo">
+            <a href="{{route('admin.dashboard')}}" class="sidebar__main-logo">
+            <ApplicationLogo/>
+            </a>
         </div>
-      </li>
-    </ul>
-  </nav>
+
+        <div class="sidebar__menu-wrapper" id="sidebar__menuWrapper">
+          <ul class="sidebar__menu">
+            <li class="sidebar-menu-item" >
+                <Link :href="route('dashboard')" class="nav-link ">
+                    <font-awesome-icon icon="gauge"/>
+                    <span class="menu-title" style="margin-left: 10px;">Dashboard</span>
+                </Link>
+            </li>
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_plans')">
+                <Link :href="route('manage-plan.index')" class="nav-link ">
+                    <font-awesome-icon icon="gauge"/>
+                    <span class="menu-title" style="margin-left: 10px;">Plan</span>
+                </Link>
+            </li>
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_permissions')">
+                <Link :href="route('administrators.index')" class="nav-link ">
+                    <font-awesome-icon icon="users"/>
+                    <span class="menu-title" style="margin-left: 10px;">Roles Manager</span>
+                </Link>
+            </li>
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_roles')">
+                <Link :href="route('roles.index')" class="nav-link ">
+                    <font-awesome-icon icon="users"/>
+                    <span class="menu-title" style="margin-left: 10px;">Permission</span>
+                </Link>
+            </li>
+            <li v-if="checkUserPermissions('view_settings')" class="sidebar-menu-item sidebar-dropdown nav-item dropdown" :class="[route().current('settings.*') ? 'show' : '']">
+                <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" :class="[route().current('settings.*') ? 'active' : '']">
+                  <font-awesome-icon icon="gear"/>
+                  <span class="menu-title" style="margin-left: 10px;">Settings</span>
+                </a>
+                <div class="sidebar-submenu dropdown-menu" :class="[route().current('settings.*') ? 'show' : '']">
+                    <ul>
+                        <li v-for="setting in settings" :key="setting.id"  class="sidebar-menu-item" :class="[route().current('settings.*') ? 'active' : '']">
+                            <Link :href="route('settings.group', setting.group)" :only="['settings']" class="text-capitalize">
+                                <font-awesome-icon icon="circle" style="color: #0000ff57; font-size: 10px;" />
+                                <span class="menu-title ml-3">{{ getGroupName(setting.group) }}</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </div>
 </template>
 
-<script setup>
+<script>
 import { Link } from '@inertiajs/inertia-vue3'
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import ApplicationLogo from './ApplicationLogo.vue';
+import Helpers from '@/Mixins/Helpers';
+import axios from 'axios';
+export default {
+  data(){
+    return {
+      'settings': [],
+      'open': false
+    }
+  },
+  components: {
+    Link,
+    ApplicationLogo,
+  },
+  methods:{
+    getSettings(){
+      axios.get(route('settings'))
+        .then((response) => {
+          this.settings = response.data.data
+      })
+    }
+  },
+  mounted(){
+    this.getSettings()
+     this.emitter.on('open-sidebar', ()=>{
+        this.open = this.open ? false : true
+     });
+  },
+  mixins: [Helpers]
+}
 </script>
-<style scoped>
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: transparent;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(0, 0, 0);
-}
-</style>

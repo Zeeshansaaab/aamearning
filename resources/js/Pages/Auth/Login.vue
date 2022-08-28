@@ -40,6 +40,7 @@ const submit = () => {
             <div>
                 <BreezeLabel for="username" value="Username" />
                 <BreezeInput id="username" type="text" class="mt-1 block w-full" v-model="form.username" required autofocus autocomplete="username" />
+                
             </div>
 
             <div class="mt-4">
