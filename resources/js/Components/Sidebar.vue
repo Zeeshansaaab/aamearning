@@ -22,6 +22,18 @@
                     <span class="menu-title" style="margin-left: 10px;">Plan</span>
                 </Link>
             </li>
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_permissions')">
+                <Link :href="route('administrators.index')" class="nav-link ">
+                    <font-awesome-icon icon="users"/>
+                    <span class="menu-title" style="margin-left: 10px;">Roles Manager</span>
+                </Link>
+            </li>
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_roles')">
+                <Link :href="route('roles.index')" class="nav-link ">
+                    <font-awesome-icon icon="users"/>
+                    <span class="menu-title" style="margin-left: 10px;">Permission</span>
+                </Link>
+            </li>
             <li v-if="checkUserPermissions('view_settings')" class="sidebar-menu-item sidebar-dropdown nav-item dropdown" :class="[route().current('settings.*') ? 'show' : '']">
                 <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" :class="[route().current('settings.*') ? 'active' : '']">
                   <font-awesome-icon icon="gear"/>
@@ -37,18 +49,6 @@
                         </li>
                     </ul>
                 </div>
-            </li>
-            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_permissions')">
-                <Link :href="route('administrators.index')" class="nav-link ">
-                    <font-awesome-icon icon="users"/>
-                    <span class="menu-title" style="margin-left: 10px;">Roles Manager</span>
-                </Link>
-            </li>
-            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_roles')">
-                <Link :href="route('roles.index')" class="nav-link ">
-                    <font-awesome-icon icon="users"/>
-                    <span class="menu-title" style="margin-left: 10px;">Permission</span>
-                </Link>
             </li>
           </ul>
         </div>
