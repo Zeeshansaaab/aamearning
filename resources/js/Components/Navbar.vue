@@ -1,65 +1,108 @@
 <template>
-  
-<nav class="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
-  <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
-    <Link class="navbar-brand brand-logo-mini align-self-center d-lg-none" :href="route('dashboard')">
-        <ApplicationLogo/>
-    </Link>
-    <button class="navbar-toggler navbar-toggler align-self-center mr-2" type="button" data-toggle="minimize">
-      <i class="mdi mdi-menu"></i>
-    </button>
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-          <i class="mdi mdi-bell-outline"></i>
-          <span class="count count-varient1">7</span>
-        </a>
-        <div class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list" aria-labelledby="notificationDropdown">
-          <h6 class="p-3 mb-0 ">Notifications</h6>
-          <a class="dropdown-item preview-item">
-            <div class="preview-thumbnail">
-              <img src="storage/user/user1.jpg" alt="" class="profile-pic">
-            </div>
-            <div class="preview-item-content">
-              <p class="mb-0">Dany Miles <span class="text-small text-muted">commented on your photo</span></p>
-            </div>
-          </a>
-          <div class="dropdown-divider"></div>
-          <p class="p-3 mb-0 ">View all activities</p>
-        </div>
-      </li>
-    </ul>
-    <ul class="navbar-nav navbar-nav-right ml-lg-auto">
-        <Dropdown>
-            <template #header>
-                <img class="nav-profile-img mr-2" alt="" :src="getImage($page.props.auth.user.image)">
-                <span class="profile-name">Henry Klein</span>
-            </template>
-            <template #items>
-                <Link class="dropdown-item" href="#">
-                    <i class="mdi mdi-cached mr-2 text-success"></i> Activity Log </Link>
-                <Link  method="post" class="dropdown-item" :href="route('logout')">
-                    <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </Link>
-            </template>
-        </Dropdown>
-    </ul>
-    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-      <span class="mdi mdi-menu"></span>
-    </button>
-  </div>
+  <!-- navbar-wrapper start -->
+<nav class="navbar-wrapper bg--dark">
+    <div class="navbar__left">
+        <button type="button" class="res-sidebar-open-btn me-3" red="sidebar_open" @click="openSidebar"><font-awesome-icon icon="bars"/></button>
+        <form class="navbar-search">
+            <input type="search" name="#0" class="navbar-search-field" id="searchInput" autocomplete="off"
+                placeholder="Search here...">
+            <ul class="search-list"></ul>
+        </form>
+    </div>
+    <div class="navbar__right">
+        <ul class="navbar__action-list">
+
+            <li class="dropdown">
+                <button type="button" class="primary--layer" data-bs-toggle="dropdown" data-display="static"
+                    aria-haspopup="true" aria-expanded="false">
+                    <font-awesome-icon icon="bell"/>
+                </button>
+                <div class="dropdown-menu dropdown-menu--md p-0 border-0 box--shadow1 dropdown-menu-right">
+                    <div class="dropdown-menu__header">
+                        <span class="caption">@lang('Notification')</span>
+                        <!-- @if($adminNotificationCount > 0)
+                            <p>@lang('You have') {{ $adminNotificationCount }} @lang('unread notification')</p>
+                        @else
+                            <p>@lang('No unread notification found')</p>
+                        @endif -->
+                    </div>
+                    <div class="dropdown-menu__body">
+                       <a href=""
+                          class="dropdown-menu__item">
+                          <div class="navbar-notifi">
+                              <div class="navbar-notifi__left bg--green b-radius--rounded"><img
+                                      src=""
+                                      alt="@lang('Profile Image')"></div>
+                              <div class="navbar-notifi__right">
+                                  <h6 class="notifi__title">Notification</h6>
+                                  <span class="time"><font-awesome-icon icon="clock"/>
+                                      </span>
+                              </div>
+                          </div><!-- navbar-notifi end -->
+                      </a>
+                    </div>
+                    <div class="dropdown-menu__footer">
+                        <a href=""
+                            class="view-all-message">@lang('View all notification')</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item dropdown">
+                <button type="button" class="dropdown-toggle"
+                    data-toggle="dropdown">
+                    <span class="navbar-user">
+                        <span class="navbar-user__thumb"><img
+                                src=""
+                                alt="image"></span>
+                        <span class="navbar-user__info">
+                            <span
+                                class="navbar-user__name"></span>
+                        </span>
+                        <span class="icon"><font-awesome-icon icon="circle-down"/></span>
+                    </span>
+                </button>
+                <div class="dropdown-menu dropdown-menu--sm p-0 border-0 box--shadow1 dropdown-menu-right dropdown-menu">
+                    <a href="{{ route('admin.profile') }}"
+                        class="dropdown-menu__item d-flex align-items-center px-3 py-2">
+                        <font-awesome-icon icon="user-circle"/>
+                        <span class="dropdown-menu__caption">@lang('Profile')</span>
+                    </a>
+
+                    <a href="{{ route('admin.password') }}"
+                        class="dropdown-menu__item d-flex align-items-center px-3 py-2">
+                        <font-awesome-icon icon="key"/>
+                        <span class="dropdown-menu__caption">@lang('Password')</span>
+                    </a>
+
+                    <a href="{{ route('admin.logout') }}"
+                        class="dropdown-menu__item d-flex align-items-center px-3 py-2">
+                        <font-awesome-icon icon="sign-out"/>
+                        <span class="dropdown-menu__caption">@lang('Logout')</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
+<!-- navbar-wrapper end -->
+
 </template>
 
 <script>
 import Dropdown from '@/Components/Dropdown.vue';
 import Helpers from '@/Mixins/Helpers';
-import ApplicationLogo from './ApplicationLogo.vue';
 import { Link } from '@inertiajs/inertia-vue3'
 export default {
     components: {
         Dropdown,
-        ApplicationLogo,
         Link
+    },
+    methods:{
+        openSidebar(){
+            this.emitter.emit('open-sidebar');
+        }
     },
     mixins: [Helpers]
 }

@@ -29,4 +29,10 @@ function getPermissionsName($role)
     return $role->permissions()->pluck('name');
 }
 
+function flash($message, $style = 'info')
+{
+    session()->flash('flash.banner', $message);
+    session()->flash('flash.bannerStyle', $style);
+}
+
 ?>

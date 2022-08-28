@@ -1,11 +1,11 @@
-// import moment from 'moment';
+import moment from 'moment';
 
 export default {
     methods: {
         // // formate time
-        // formatDate(dateString) {
-        //     return moment(dateString).format("Do MMM YYYY");
-        // },
+        formatDate(dateString) {
+            return moment(dateString).format("Do MMM YYYY");
+        },
         // // formate date & time
         // formatDateTime(dateString) {
         //     return moment(dateString).format("Do MMM YYYY h:mm:ss A");
@@ -62,7 +62,6 @@ export default {
         // check user permissions
         checkUserPermissions(value) {
             const permissionsArray = this.$page.props.auth.user.permissions;
-
             // for single record
             if (typeof value == 'string') {
                 return permissionsArray.includes(value);
@@ -192,7 +191,18 @@ export default {
                 return !blockRoutes.includes(path[3]);
             }
         },
-
+        getStatusForTable(status){
+            switch(status){
+                case 'active':
+                    return 'badge--success'
+                case 'inactive':
+                    return 'badge--danger'
+                default :
+                    return 'badge--warning'
+                    
+            }
+            
+        },
         showTooltip(){
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             tooltipTriggerList.map(function (tooltipTriggerEl) {

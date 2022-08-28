@@ -1,6 +1,5 @@
 import _ from 'lodash';
 window._ = _;
-import '../js/assets/vendors/css/vendor.bundle.base.css'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -15,8 +14,10 @@ import { createPopper } from '@popperjs/core';
     //Importing Jquery  $
     window.jQuery = jQuery
     window.$ = $
-    window.Popper = createPopper;
-// } catch (e) {}
+    // window.Popper = createPopper;
+// } catch (e) {
+//     console.loge(e)
+// }
 
 import axios from 'axios';
 window.axios = axios;
