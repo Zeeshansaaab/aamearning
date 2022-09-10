@@ -7,9 +7,20 @@ window._ = _;
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
+import jQuery from "jquery";
+import $ from "jquery";
+import { createPopper } from '@popperjs/core';
+// try {    
+    //Importing Jquery  $
+    window.jQuery = jQuery
+    window.$ = $
+    // window.Popper = createPopper;
+// } catch (e) {
+//     console.loge(e)
+// }
+
 import axios from 'axios';
 window.axios = axios;
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
