@@ -8,10 +8,11 @@
         <SearchInput :searchedKeyword="searchedKeywords" callType='plans'/>
     </template>
     <div class="card">
-        <div class="card-header border-0 pt-1 pb-0 mb-0">
-            <h3 class="card-title align-items-start flex-column">
+        <div class="card-header border-0 pt-1 pb-0 mb-0 d-flex justify-content-between">
+            <h3 class="card-title align-items-center">
                 Manage Plans
             </h3>
+            <Button @click="openModal()" class="btn-sm p-0 m-0" :smallBtn="true" ><font-awesome-icon icon="plus"/>Add new</Button>
         </div>
         <div class="card-body py-1">
             <div class="table-responsive--sm">
@@ -39,9 +40,9 @@
                                 <span class="badge" :class="getStatusForTable(plan.status)">{{plan.status}}</span>
                             </td>
                             <td data-label="Action">
-                                <edit-section iconType="link" 
+                                <edit-section
                                     permission="edit_plans"
-                                    :url="route('manage-plan.edit', plan.id)"/>
+                                    @click="openModal(plan)"/>
                             </td>
                         </tr>
                     </tbody>
@@ -50,6 +51,7 @@
         </div>
         <pagination :meta="plans" :keyword="searchedKeywords" callType="plans" />
     </div>      
+    <PlanModal title="Add Modal"/>
 </Authenticated>
 </template>
 
@@ -60,21 +62,35 @@ import EditSection from '@/Components/EditSection.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import SearchInput from '@/Components/SearchInput.vue';
 import Pagination from '@/Components/Pagination.vue'
+import Button from '@/Components/Button.vue';
+import PlanModal from './PlanModal.vue';
 export default {
     props: ['plans' , 'searchKeyword'],
     data(){
         return {
-            searchedKeywords: this.searchKeyword
+            searchedKeywords: this.searchKeyword,
+            isShow: false,
         }
     },
     components: 
-            { 
-                Authenticated,
-                EditSection, 
-                Head,
-                SearchInput,
-                Pagination
-            },
+    {
+        Authenticated,
+        EditSection,
+        Head,
+        SearchInput,
+        Pagination,
+        Button,
+        PlanModal
+    },
+    methods: {
+        openModal(plan = null){
+            this.isShow = true;
+            this.emitter.emit('plan_modal', {
+                title: plan ? "Edit Subscription plan" : 'Add Subscription plan',
+                plan: plan 
+            });
+        }
+    },
     mixins: [Helpers]
 }
 </script>
