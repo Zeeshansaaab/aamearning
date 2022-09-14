@@ -129,7 +129,7 @@ export default {
                 this.form.put(route("roles.update", this.role.id), {
                     errorBag: "role",
                     preserveScroll: true,
-                }it);
+                });
             }
         },
         selectAll: function () {
