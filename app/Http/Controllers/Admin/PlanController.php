@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use App\Models\Plan;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\PlanRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class PlanController extends Controller
@@ -44,9 +47,19 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PlanRequest $request)
     {
-        //
+        try{
+            DB::beginTransaction();
+            Plan::updateOrCreate(['id' => $request->input('id')], $request->all());
+            DB::commit();
+            flash($request->input('id') ? "Plan Updated successfully" : "Plan created successfully" , 'success');
+            return redirect()->back();
+        }catch (Exception $e){
+            DB::rollBack();
+            flash($e->getMessage(), 'error');
+            return redirect()->back();
+        }
     }
 
     /**

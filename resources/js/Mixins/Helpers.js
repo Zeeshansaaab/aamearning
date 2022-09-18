@@ -90,6 +90,9 @@ export default {
                 case '1':
                     value = true
                     break;
+                case 1:
+                    value = true
+                    break;
                 default:
                     break;
             }
@@ -192,13 +195,22 @@ export default {
             }
         },
         getStatusForTable(status){
+            if(status == 'active' || status == 1){
+                return 'badge--success';
+            }else if(status == 'inactive' || status == 0) {
+                return 'badge--danger';
+            }else {
+                return 'badge--warning';
+            }
+        },
+        getStatusWithBoolean(status){
             switch(status){
-                case 'active':
-                    return 'badge--success'
-                case 'inactive':
-                    return 'badge--danger'
+                case 1:
+                    return 'active'
+                case 0:
+                    return 'inactive'
                 default :
-                    return 'badge--warning'
+                    return 'pending'
                     
             }
             

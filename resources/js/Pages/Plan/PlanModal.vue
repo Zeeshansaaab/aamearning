@@ -5,62 +5,107 @@
         <div class="modal-body">
             <div class="form-group">
                 <Label for="name" class="required">Name </Label>
-                <Input type="text" v-model="form.name" placeholder="Plan Name" required=""/>
+                <Input :class="{ 'border border-danger' : form.errors.name }" type="text" v-model="form.name" placeholder="Plan Name" required=""/>
                 <error :message="form.errors.name" />
             </div>
             <div class="form-group">
                 <Label for="name" class="required">Price </Label>
-                <Input type="text" v-model="form.price" placeholder="Price" required=""/>
+                <Input :class="{ 'border border-danger' : form.errors.price }" type="text" v-model="form.price" placeholder="Price" required=""/>
                 <error :message="form.errors.price" />
             </div>
             <div class="form-group">
-                <Label for="name" class="required">PTC Rate</Label>
-                <Input type="text" v-model="form.ptc_rate" placeholder="PTC Rate" required=""/>
-                <error :message="form.errors.ptc_rate" />
+                <Label for="name" class="required">User ref </Label>
+                <Input :class="{ 'border border-danger' : form.errors.user_ref }" type="text" v-model="form.user_ref" placeholder="User ref" required=""/>
+                <error :message="form.errors.user_ref" />
+            </div>
+     
+            <div class="form-group">
+                <Label for="profit_bonus_percent" class="required">Daily Ad limit</Label>
+                <input :class="{ 'border border-danger' : form.errors.daily_limit }" type="text" class="form-control has-append" v-model="form.daily_limit" name="daily_limit" placeholder="Daily limit" id="daily_limit">
+                <error :message="form.errors.daily_limit" />
             </div>
             <div class="form-group">
+                <Label for="name" class="required">Validity :</Label>
+                <div class="input-group">
+                    <input type="number" :class="{ 'border border-danger' : form.errors.validity }" class="form-control" v-model="form.validity" name="validity" placeholder="Validity" id="validity">
+                </div>
+                <error :message="form.errors.validity" />
+            </div>
+            <div class="form-group">
+                <Label for="subscriber_daily_limit" class="required">Subscriber daily limit :</Label>
+                <div class="input-group">
+                    <input type="text" class="form-control has-append" v-model="form.channel_subscribe_dl" name="subscriber_daily_limit" placeholder="Maximum Profit %age of Plan" required="" id="max_profit_percent">
+                </div>
+            </div>
+            <div class="form-group">
+                <Label for="name" class="required">PTC per click ref status: ?</Label>
+                <input class="form-check-input" :class="`btn ${form.ptc_per_click_ref_status ? 'btn-outlinine-success' : 'btn-outlinine-danger'}`" type="checkbox" value=""
+                    :checked="form.ptc_per_click_ref_status" v-model="form.ptc_per_click_ref_status" id="ptc_per_click_ref_status" autocomplete="off"/>
+            </div>
+            
+            <div class="form-group" v-if="form.ptc_per_click_ref_status">
+                <Label for="name" class="required">PTC Rate</Label>
+                <Input type="text" v-model="form.ptc_rate" placeholder="PTC Rate" />
+                <error :message="form.errors.ptc_rate" />
+            </div>
+            <div class="form-group" v-if="form.ptc_per_click_ref_status">
                 <Label for="name" class="required">Ptc Per Click Referral Price</Label>
                 <Input type="text" v-model="form.ptc_per_click_ref" placeholder="Ptc Per Click Referral Price" required=""/>
                 <error :message="form.errors.ptc_per_click_ref" />
             </div>
-            <div class="form-group">
-                <label for="max_profit_percent" class="required">Maximum Profit %age </label>
-                <div class="input-group">
-                    <input type="text" class="form-control has-append" name="max_profit_percent" placeholder="Maximum Profit %age of Plan" required="" id="max_profit_percent">
-                    <div class="input-group-text">%</div>
-                </div>
+            <div class="form-group" v-if="form.ptc_per_click_ref_status">
+                <Label for="name" class="required">Ptc Referral daily limit</Label>
+                <Input type="text" v-model="form.ptc_per_click_ref_daily_limit" placeholder="Ptc Referral daily limit" required=""/>
+                <error :message="form.errors.ptc_per_click_ref_daily_limit" />
             </div>
+        
             <div class="form-group">
-                <label for="profit_bonus_percent" class="required">Bonus Profit %age </label>
-                <div class="input-group">
-                    <input type="text" class="form-control has-append" name="profit_bonus_percent" placeholder="Bonus Profit %age" required="" id="profit_bonus_percent">
-                    <div class="input-group-text">%</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="validity" class="required">Validity</label>
-                <div class="input-group">
-                    <input type="number" class="form-control" name="validity" placeholder="Validity" required="" id="validity">
-                    <div class="input-group-text">Days</div>
-                </div>
-                <small>Write 0 For unlimited</small>
-            </div>
-            <div class="form-group">
-                <label for="ammount_return" class="required">Ammount Return</label>
-                <div class="input-group">
-                    <input type="number" class="form-control" name="ammount_return" placeholder="Ammount Return" required="" id="ammount_return">
-                    <div class="input-group-text">Days</div>
-                </div>
+                <Label for="name" class="required">Sharelink Referral Status: ?</Label>
+                <input class="form-check-input" :class="`btn ${form.sl_per_click_ref_status ? 'btn-outlinine-success' : 'btn-outlinine-danger'}`" type="checkbox" value=""
+                    :checked="form.sl_per_click_ref_status" v-model="form.sl_per_click_ref_status" id="ptc_per_click_ref_status" autocomplete="off"/>
             </div>
 
-            
-            <div class="form-group">
-                <label for="status">Status</label>
-                <div class="toggle btn btn--danger off" data-bs-toggle="toggle" style="width: 100%; height: 50px;"><input type="checkbox" data-width="100%" data-height="50" data-onstyle="-success" data-offstyle="-danger" data-bs-toggle="toggle" data-on="Enable" data-off="Disable" name="status" id="status"><div class="toggle-group"><label class="btn btn--success toggle-on">Enable</label><label class="btn btn--danger active toggle-off">Disable</label><span class="toggle-handle btn btn-default"></span></div></div>
+            <div class="form-group" v-if="form.sl_per_click_ref_status">
+                <Label for="name" class="required">Share link per click ref</Label>
+                <Input type="text" v-model="form.sl_per_click_ref" placeholder="Share link per click ref" required=""/>
+                <error :message="form.errors.sl_per_click_ref" />
             </div>
+            <div class="form-group" v-if="form.sl_per_click_ref_status">
+                <Label for="name" class="required">Share link ref daily limit</Label>
+                <Input type="text" v-model="form.sl_per_click_ref_daily_limit" placeholder="Share link ref daily limit" required=""/>
+                <error :message="form.errors.sl_per_click_ref_daily_limit" />
+            </div>
+
+            <div class="form-group">
+                <Label for="name" class="required">Task per click ref status</Label>
+                <input type="checkbox" v-model="form.task_per_click_ref_status" id="ptc_per_click_ref_status" autocomplete="off"/>
+            </div>
+            
+            <div class="form-group" v-if="form.task_per_click_ref_status">
+                <Label for="name" class="required">Task per click referral</Label>
+                <Input type="text" v-model="form.task_per_click_ref" placeholder="Task per click referral" required=""/>
+                <error :message="form.errors.task_per_click_ref" />
+            </div>
+            <div class="form-group" v-if="form.task_per_click_ref_status">
+                <Label for="name" class="required">Task referral daily limit</Label>
+                <Input type="text" v-model="form.task_per_click_ref_daily_limit" placeholder="Task referral daily limit" required=""/>
+                <error :message="form.errors.task_per_click_ref_daily_limit" />
+            </div>
+
+            <div class="form-group">
+                <Label for="status" class="required">Status: ?</Label>
+                <input class="form-check-input" type="checkbox" value="" :checked="form.status" v-model="form.status" id="status" autocomplete="off"/>
+            </div>
+
         </div>
+        
         <div class="modal-footer">
-            <button type="submit" class="btn btn--primary w-100">Submit</button>
+            <Button type="submit" class="w-100 d-flex align-items-center justify-content-center p-2 btn-primary rounded " :class="{ 'opacity-25 disabled': form.processing }" :disabled="form.processing"  btnWidth="w-28 ml-auto">
+                <span class="ml-2 text-light">{{ this.form.id ? "Update" : "Create" }}</span>
+                <span class="spinner-border text-dark ml-4" style="height: 20px; width: 20px;" v-if="form.processing">
+                    <span class="sr-only">Loading...</span>
+                </span>
+            </Button>
         </div>
     </form>
 </Modal>            
@@ -73,14 +118,27 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import Input from '@/Components/Input.vue';
 import Label from '@/Components/Label.vue';
 import Error from '@/Components/InputError.vue';
+import Button from '@/Components/Button.vue'
+import StatusCheckbox from '@/Components/StatusCheckbox.vue';
+import Checkbox from '@/Components/Checkbox.vue';
+import Helpers from '@/Mixins/Helpers';
 export default {
-    components: { Modal, Label, Input, Error },
+    components: { Modal, Label, Input, Error, StatusCheckbox, Checkbox, Button },
     props: ['title'],
     data(){
         return {
             name: this.title,
             plan: null,
             form: null,
+        }
+    },
+    methods: {
+        submit(){
+            this.form.post(route('manage-plan.store'), {
+                errorBag: "product",
+                preserveScroll: true,
+                onSuccess: () => { $('#planModal').modal('hide'); }
+            });
         }
     }, 
     beforeMount(){
@@ -89,33 +147,31 @@ export default {
             this.form = useForm({
                 id: args.plan ? args.plan.id : null, 
                 name: args.plan ? args.plan.name : null, 
-                user_ref: args.plan ? args.plan.user_ref : null, 
-                daily_limit: args.plan ? args.plan.daily_limit : null, 
+                user_ref: args.plan ? args.plan.user_ref : 0, 
+                daily_limit: args.plan ? args.plan.daily_limit : 0, 
                 price: args.plan ? args.plan.price : null, 
-                ptc_rate: args.plan ? args.plan.ptc_rate : null, 
-                ptc_per_click_ref: args.plan ? args.plan.ptc_per_click_ref : null, 
-                ptc_per_click_ref_daily_limit: args.plan ? args.plan.ptc_per_click_ref_daily_limit : null, 
-                ptc_per_click_ref_status: args.plan ? args.plan.ptc_per_click_ref_status : null, 
-                sl_per_click_ref: args.plan ? args.plan.sl_per_click_ref : null, 
-                sl_per_click_ref_daily_limit: args.plan ? args.plan.sl_per_click_ref_daily_limit : null, 
-                sl_per_click_ref_status: args.plan ? args.plan.sl_per_click_ref_status : null, 
-                task_per_click_ref: args.plan ? args.plan.task_per_click_ref : null, 
-                task_per_click_ref_daily_limit: args.plan ? args.plan.task_per_click_ref_daily_limit : null, 
-                task_per_click_ref_status: args.plan ? args.plan.task_per_click_ref_status : null, 
-                ca_ref_commission: args.plan ? args.plan.ca_ref_commission : null, 
-                ca_ref_commission_daily_limit: args.plan ? args.plan.ca_ref_commission_daily_limit : null, 
-                ca_ref_commission_status: args.plan ? args.plan.ca_ref_commission_status : null, 
-                status: args.plan ? args.plan.status : null, 
-                status: args.plan ? args.plan.status : null, 
-                ref_level: args.plan ? args.plan.ref_level : null,   
+                ptc_rate: args.plan ? args.plan.ptc_rate : 0, 
+                ptc_per_click_ref: args.plan ? args.plan.ptc_per_click_ref : 0, 
+                ptc_per_click_ref_daily_limit: args.plan ? args.plan.ptc_per_click_ref_daily_limit : 0, 
+                ptc_per_click_ref_status: args.plan ? this.booleanStatusValue(args.plan.ptc_per_click_ref_status) : 0, 
+                sl_per_click_ref: args.plan ? args.plan.sl_per_click_ref : 0, 
+                sl_per_click_ref_daily_limit: args.plan ? args.plan.sl_per_click_ref_daily_limit : 0, 
+                sl_per_click_ref_status: args.plan ? this.booleanStatusValue(args.plan.sl_per_click_ref_status) : 0, 
+                task_per_click_ref: args.plan ? args.plan.task_per_click_ref : 0, 
+                task_per_click_ref_daily_limit: args.plan ? args.plan.task_per_click_ref_daily_limit : 0, 
+                task_per_click_ref_status: args.plan ? this.booleanStatusValue(args.plan.task_per_click_ref_status) : 0, 
+                ca_ref_commission: args.plan ? args.plan.ca_ref_commission : 0, 
+                ca_ref_commission_daily_limit: args.plan ? args.plan.ca_ref_commission_daily_limit : 0, 
+                ca_ref_commission_status: args.plan ? args.plan.ca_ref_commission_status : 0, 
+                channel_subscribe_dl: args.plan ? args.plan.channel_subscribe_dl : 0, 
+                status: args.plan ? this.booleanStatusValue(args.plan.status) : false, 
+                validity: args.plan ? args.plan.validity : 0,
+                ref_level: args.plan ? args.plan.ref_level : 0,   
             })
-            console.log(this.form)
             $('#planModal').modal('show');
         })
     },
-    mounted(){
-       
-    }
+    mixins: [Helpers]
 }
 </script>
 

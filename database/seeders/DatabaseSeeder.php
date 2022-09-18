@@ -2,15 +2,12 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Carbon\Carbon;
+// use Illuminate\Databa
 use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -47,5 +44,9 @@ class DatabaseSeeder extends Seeder
         foreach($users as $user){
             $user->plan()->attach(Arr::random($plans));   
         }     
+        $this->call([
+            ReferralsTableSeeder::class,
+        ]);
+
     }
 }
