@@ -45,11 +45,12 @@ Route::namespace('App\Http\Controllers\Admin')->group(function(){
     Route::group(['middleware' => ['can:view_roles']], function () {
         Route::resource('roles', RoleController::class);
     });
+    Route::post('user-bonus/changeAll', [App\Http\Controllers\Admin\UserBonusController::class, 'changeAll'])->middleware('can:view_user_bonus')->name('user-bonus.changeAll');
     Route::resource('administrators', AdministratorController::class)->middleware('can:view_administrators');
     Route::resource('bonus-plans', App\Http\Controllers\Admin\BonusPlanController::class)->only(['index', 'store'])->middleware('can:view_administrators');
     Route::resource('user-bonus', App\Http\Controllers\Admin\UserBonusController::class)->only(['index'])->middleware('can:view_user_bonus');
-    Route::post('user-bonus/changeAll', [App\Http\Controllers\Admin\UserBonusController::class, 'changeAll'])->middleware('can:view_user_bonus')->name('user-bonus.changeAll');
-
+    Route::resource('users', App\Http\Controllers\Admin\UsersController::class)->only(['index', 'update'])->middleware('can:view_users');
+    
 });
 
 

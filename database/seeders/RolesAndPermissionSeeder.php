@@ -40,11 +40,18 @@ class RolesAndPermissionSeeder extends Seeder
             ['group'=> 'administrators', 'name' => 'edit_administrators', 'guard_name' => 'web'],
             ['group'=> 'administrators', 'name' => 'create_administrators', 'guard_name' => 'web'],
             ['group'=> 'administrators', 'name' => 'delete_administrators', 'guard_name' => 'web'],
-            //Administrator
+            
+            //user_bonus
             ['group'=> 'user_bonus', 'name' => 'view_user_bonus', 'guard_name' => 'web'],
             ['group'=> 'user_bonus', 'name' => 'edit_user_bonus', 'guard_name' => 'web'],
             ['group'=> 'user_bonus', 'name' => 'create_user_bonus', 'guard_name' => 'web'],
             ['group'=> 'user_bonus', 'name' => 'delete_user_bonus', 'guard_name' => 'web'],
+
+            //users
+            ['group'=> 'users', 'name' => 'view_users', 'guard_name' => 'web'],
+            ['group'=> 'users', 'name' => 'edit_users', 'guard_name' => 'web'],
+            ['group'=> 'users', 'name' => 'create_users', 'guard_name' => 'web'],
+            ['group'=> 'users', 'name' => 'delete_users', 'guard_name' => 'web'],
 
         ];
 

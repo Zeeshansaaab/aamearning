@@ -41,6 +41,12 @@
                     <span class="menu-title" style="margin-left: 10px;">User's Bonus</span>
                 </Link>
             </li>
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_users')">
+                <Link :href="route('users.index')" class="nav-link ">
+                    <font-awesome-icon icon="gauge"/>
+                    <span class="menu-title" style="margin-left: 10px;">Manage users</span>
+                </Link>
+            </li>
             <li class="sidebar-menu-item" v-if="checkUserPermissions('view_permissions')">
                 <Link :href="route('administrators.index')" class="nav-link ">
                     <font-awesome-icon icon="users"/>

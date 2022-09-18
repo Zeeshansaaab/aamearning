@@ -1,4 +1,7 @@
-
+.card-body{
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
