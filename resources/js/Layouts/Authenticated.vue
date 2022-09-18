@@ -12,7 +12,6 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
     <Navbar/>
     <div class="body-wrapper">
         <div class="bodywrapper__inner">
-            <Banner/>
             <Breadcrumb>
                 <template #breadcrumb>
                     <slot name="breadcrumb"/>
@@ -21,6 +20,7 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
                     <slot name="breadcrumbplugin"/>
                 </template>
             </Breadcrumb>
+            <Banner/>
             <div class="row mb-none-30">
                 <div class="col-lg-12 col-md-12 mb-30">
                     <div class="card">

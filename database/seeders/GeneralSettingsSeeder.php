@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\GeneralSetting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class GeneralSettingsSeeder extends Seeder
 {
@@ -243,7 +242,33 @@ class GeneralSettingsSeeder extends Seeder
                     'is_required' => null,
                     'created_at' => Carbon::now()
                 ],
-                
+                [
+                    'group' => 'referrals',
+                    'type' => 'checkbox',
+                    'name' => 'Referral Deposit',
+                    'key' => 'ref_deposit',
+                    'value' => '1',
+                    'is_required' => null,
+                    'created_at' => Carbon::now()
+                ],
+                [
+                    'group' => 'referrals',
+                    'type' => 'checkbox',
+                    'name' => 'PTC View',
+                    'key' => 'ref_ptc',
+                    'value' => '1',
+                    'is_required' => null,
+                    'created_at' => Carbon::now()
+                ],
+                [
+                    'group' => 'referrals',
+                    'type' => 'checkbox',
+                    'name' => 'Membership upgrade',
+                    'key' => 'ref_upgrade',
+                    'value' => '1',
+                    'is_required' => null,
+                    'created_at' => Carbon::now()
+                ],
         ]);
 
         // email settings and Push Notifications

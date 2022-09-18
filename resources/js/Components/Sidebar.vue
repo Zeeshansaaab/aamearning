@@ -22,6 +22,13 @@
                     <span class="menu-title" style="margin-left: 10px;">Plan</span>
                 </Link>
             </li>
+
+            <li class="sidebar-menu-item" v-if="checkUserPermissions('view_administrators')">
+                <Link :href="route('referral')" class="nav-link ">
+                    <font-awesome-icon icon="gauge"/>
+                    <span class="menu-title" style="margin-left: 10px;">Ref Commision</span>
+                </Link>
+            </li>
             <li class="sidebar-menu-item" v-if="checkUserPermissions('view_permissions')">
                 <Link :href="route('administrators.index')" class="nav-link ">
                     <font-awesome-icon icon="users"/>

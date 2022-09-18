@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AdministratorController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +32,9 @@ Route::namespace('App\Http\Controllers\Admin')->group(function(){
         });
         
         Route::resource('/manage-plan', PlanController::class)->middleware('can:view_plans');
+        Route::get('/referral', [\App\Http\Controllers\Admin\AdminController::class, 'referrals'])->name('referral');
+        Route::post('/referral', [\App\Http\Controllers\Admin\AdminController::class, 'referralsUpdate'])->name('referral');
+        Route::get('/referral/status/{setting}', [\App\Http\Controllers\Admin\AdminController::class, 'statusChanger'])->name('referral.status');
     }); // prefix ends 
 
     // Roles

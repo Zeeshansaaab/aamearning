@@ -89,6 +89,7 @@ export default {
             settings: this.settings
         })
     },
+    
     mixins: [Helpers]
 
 }

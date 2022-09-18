@@ -8,10 +8,11 @@
         <SearchInput :searchedKeyword="searchedKeywords" callType='plans'/>
     </template>
     <div class="card">
-        <div class="card-header border-0 pt-1 pb-0 mb-0">
-            <h3 class="card-title align-items-start flex-column">
+        <div class="card-header border-0 pt-1 pb-0 mb-0 d-flex justify-content-between">
+            <h3 class="card-title align-items-center">
                 Manage Plans
             </h3>
+            <Button @click="openModal()" class="btn-sm p-0 m-0" :smallBtn="true" ><font-awesome-icon icon="plus"/>Add new</Button>
         </div>
         <div class="card-body py-1">
             <div class="table-responsive--sm">
@@ -20,8 +21,8 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Profit %age</th>
-                            <th scope="col">Profit Bonus %age</th>
+                            <th scope="col">Daily limit</th>
+                            <th scope="col">User ref</th>
                             <th scope="col">Validity</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
@@ -30,18 +31,17 @@
                     <tbody>
                         <tr v-for="plan in plans.data" :key="plan.id">
                             <td data-label="Name">{{plan.name}}</td>
-                            <td data-label="Price" class="font-weight-bold">{{ plan.min_price }} to {{ plan.max_price }} </td>
-
-                            <td data-label="Profit %age">{{ plan.min_profit_percent }} % to {{ plan.max_profit_percent }} %</td>
-                            <td data-label="Profit Bonus %age">{{ plan.profit_bonus_percent }} %</td>
+                            <td data-label="Price" class="font-weight-bold">{{ plan.price }}</td>
+                            <td data-label="user_ref">{{ plan.daily_limit }}</td>
+                            <td data-label="user_ref">{{ plan.user_ref }}</td>
                             <td data-label="Validity">{{ plan.validity}} Day</td>
                             <td data-label="Status">
-                                <span class="badge" :class="getStatusForTable(plan.status)">{{plan.status}}</span>
+                                <span class="badge" :class="getStatusForTable(plan.status)">{{ getStatusWithBoolean(plan.status) }}</span>
                             </td>
                             <td data-label="Action">
-                                <edit-section iconType="link" 
+                                <edit-section
                                     permission="edit_plans"
-                                    :url="route('manage-plan.edit', plan.id)"/>
+                                    @click="openModal(plan)"/>
                             </td>
                         </tr>
                     </tbody>
@@ -50,6 +50,7 @@
         </div>
         <pagination :meta="plans" :keyword="searchedKeywords" callType="plans" />
     </div>      
+    <PlanModal title="Add Modal"/>
 </Authenticated>
 </template>
 
@@ -60,21 +61,35 @@ import EditSection from '@/Components/EditSection.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import SearchInput from '@/Components/SearchInput.vue';
 import Pagination from '@/Components/Pagination.vue'
+import Button from '@/Components/Button.vue';
+import PlanModal from './PlanModal.vue';
 export default {
     props: ['plans' , 'searchKeyword'],
     data(){
         return {
-            searchedKeywords: this.searchKeyword
+            searchedKeywords: this.searchKeyword,
+            isShow: false,
         }
     },
     components: 
-            { 
-                Authenticated,
-                EditSection, 
-                Head,
-                SearchInput,
-                Pagination
-            },
+    {
+        Authenticated,
+        EditSection,
+        Head,
+        SearchInput,
+        Pagination,
+        Button,
+        PlanModal
+    },
+    methods: {
+        openModal(plan = null){
+            this.isShow = true;
+            this.emitter.emit('plan_modal', {
+                title: plan ? "Edit Subscription plan" : 'Add Subscription plan',
+                plan: plan 
+            });
+        }
+    },
     mixins: [Helpers]
 }
 </script>

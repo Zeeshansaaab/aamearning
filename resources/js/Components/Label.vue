@@ -8,3 +8,12 @@ defineProps(['value']);
         <span v-else><slot /></span>
     </label>
 </template>
+<style>
+label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.75rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+</style>
