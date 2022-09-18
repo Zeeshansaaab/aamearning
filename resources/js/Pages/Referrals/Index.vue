@@ -4,9 +4,6 @@
     <template #breadcrumb>
         Admin <font-awesome-icon icon="arrow-right"/> Ref Commission
     </template>
-    <template #breadcrumbplugin>
-        <SearchInput :searchedKeyword="searchedKeywords" callType='plans'/>
-    </template>
     <div class="row">
         <div class="col-md-6">
             <div class="card">

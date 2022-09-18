@@ -21,7 +21,7 @@ import Input from '@/Components/Input.vue';
 import Helpers from '@/Mixins/Helpers'
 
 export default {
-    props: ['callType', 'searchedKeyword', ],
+    props: ['callType', 'searchedKeyword', 'status'],
     components: { Input },  
     data() {
         return {
@@ -40,14 +40,19 @@ export default {
             })
 
             clearTimeout(this.timer);
-                this.timer = setTimeout(() => {
-                    // if (this.type == 'administrator') {
-                        this.$inertia.get(
-                            route(this.submissionUrl(this.type), {
-                                keyword: this.keyword,
-                            })
-                        );
-                    // }
+            this.timer = setTimeout(() => {
+                if(this.type == 'user_bonus'){
+                    this.$inertia.get(
+                    route(this.submissionUrl(this.type), {
+                        keyword: this.keyword,
+                        status: this.status
+                    }));
+                }else{
+                    this.$inertia.get(
+                    route(this.submissionUrl(this.type), {
+                        keyword: this.keyword,
+                    }));
+                }
             })
         },
 
@@ -56,10 +61,16 @@ export default {
             switch (type) {
                 case "administrators":
                     url = "administrators.index";
-                break;
+                    break;
                 case "plans":
                     url = "manage-plan.index";
-                break;
+                    break;
+                case 'bonus_plans':
+                    url = "bonus-plans.index"
+                    break;
+                case 'user_bonus':
+                    url = 'user-bonus.index';
+                    break;
             }
             return url;
         },
