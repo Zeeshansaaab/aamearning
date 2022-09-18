@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Databa
+
+use App\Models\BonusPlan;
 use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Support\Arr;
@@ -40,12 +42,13 @@ class DatabaseSeeder extends Seeder
         $userRole = Role::where('name', 'user')->first();
         $userRole->users()->sync($users->pluck('id'));
         
-        $plans = Plan::all()->pluck('id')->toArray();
-        foreach($users as $user){
-            $user->plan()->attach(Arr::random($plans));   
-        }     
+        // $plans = Plan::all()->pluck('id')->toArray();
+        // foreach($users as $user){
+        //     $user->plan()->attach(Arr::random($plans));   
+        // }     
         $this->call([
             ReferralsTableSeeder::class,
+            BonusPlanSeeder::class
         ]);
 
     }

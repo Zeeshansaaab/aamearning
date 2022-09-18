@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('plan_id')->nullable();
             $table->string('firstname', 40)->nullable();
             $table->string('lastname', 40)->nullable();
             $table->string('name', 40)->nullable();
@@ -51,6 +52,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('ref_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
         });
     }
 
