@@ -11,7 +11,7 @@
 
         <!-- Scripts -->
         @routes
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" src="{{ mix('css/app.css') }}" type="css">
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
