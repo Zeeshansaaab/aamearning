@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plan_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('plan_id')->default(0);
-            $table->unsignedBigInteger('user_id')->default(0);
+        Schema::table('users', function (Blueprint $table) {
             $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
