@@ -2,7 +2,7 @@
     <Head title="User Bonus"/>
 <Authenticated>
     <template #breadcrumb>
-        Admin <font-awesome-icon icon="arrow-right"/>User Bonus
+        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/>User Bonus
     </template>
     <template #breadcrumbplugin>
         <div class="d-flex">

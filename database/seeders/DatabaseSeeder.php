@@ -48,7 +48,8 @@ class DatabaseSeeder extends Seeder
         // }     
         $this->call([
             ReferralsTableSeeder::class,
-            BonusPlanSeeder::class
+            BonusPlanSeeder::class,
+            GatewayTableSeeder::class,
         ]);
 
     }

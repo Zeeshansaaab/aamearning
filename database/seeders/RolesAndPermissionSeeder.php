@@ -45,6 +45,11 @@ class RolesAndPermissionSeeder extends Seeder
             ['group'=> 'user_bonus', 'name' => 'edit_user_bonus', 'guard_name' => 'web'],
             ['group'=> 'user_bonus', 'name' => 'create_user_bonus', 'guard_name' => 'web'],
             ['group'=> 'user_bonus', 'name' => 'delete_user_bonus', 'guard_name' => 'web'],
+            //Administrator
+            ['group'=> 'manual_gateway', 'name' => 'view_manual_gateway', 'guard_name' => 'web'],
+            ['group'=> 'manual_gateway', 'name' => 'edit_manual_gateway', 'guard_name' => 'web'],
+            ['group'=> 'manual_gateway', 'name' => 'create_manual_gateway', 'guard_name' => 'web'],
+            ['group'=> 'manual_gateway', 'name' => 'delete_manual_gateway', 'guard_name' => 'web'],
 
         ];
 

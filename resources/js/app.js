@@ -8,6 +8,7 @@ import Notifications from 'notiwind'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import VueLazyLoad from 'vue3-lazyload'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -36,6 +37,7 @@ createInertiaApp({
             appVue.config.globalProperties.toast = window.toast;
             appVue.config.globalProperties.emitter = mitt()
             appVue.use(Notifications)
+            appVue.use(VueLazyLoad)
             appVue.component('font-awesome-icon', FontAwesomeIcon)
             appVue.mount(el);
     },
