@@ -11,13 +11,13 @@
 
         <!-- Scripts -->
         @routes
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/app.css') }}">
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
         @inertia
-        <script src="{{ mix('public/js/app.js') }}"></script>
-        <script src="{{ mix('public/js/theme.js') }}"></script>
+        <script src="{{ asset('/public/js/app.js') }}"></script>
+        <script src="{{ asset('/public/js/theme.js') }}"></script>
 
         @env ('local')
             {{-- <script src="http://localhost:8080/js/bundle.js"></script> --}}
