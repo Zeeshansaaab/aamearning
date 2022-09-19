@@ -16,8 +16,8 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
-        <script src="{{ mix('public/js/app.js') }}"></script>
-        <script src="{{ mix('public/js/theme.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/theme.js') }}"></script>
 
         @env ('local')
             {{-- <script src="http://localhost:8080/js/bundle.js"></script> --}}
