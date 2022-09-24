@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('gateways', function (Blueprint $table) {
             $table->id();
-            $table->integer('code')->nullable();
+            $table->unsignedBigInteger('code')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('description', 600)->nullable();
             $table->boolean('crypto')->nullable();
-            $table->boolean('status')->nullable();
-            $table->boolean('is_manual')->nullable();
+            $table->boolean('status')->default(true);
+            $table->boolean('is_manual')->default(1);
             $table->json('parameters')->nullable();
             $table->json('supported_currencies')->nullable();
             $table->json('extra')->nullable();

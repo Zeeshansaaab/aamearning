@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
+use Inertia\Inertia;
 use App\Models\Gateway;
 use Illuminate\Http\Request;
+use App\Models\GatewayCurrency;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
+use App\Http\Requests\ManualGatewayRequest;
 
 class ManualGatewayController extends Controller
 {
@@ -35,7 +39,7 @@ class ManualGatewayController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Deposit/Create');
     }
 
     /**
@@ -44,9 +48,74 @@ class ManualGatewayController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ManualGatewayRequest $request)
     {
-        //
+        try{
+            DB::beginTransaction();
+            $last_method = Gateway::manual()->latest()->first();
+            $method_code = 1000;
+            if ($last_method) {
+                $data['method_code'] = $last_method->code + 1;
+            }
+            $method = Gateway::create([
+                'code' => $method_code,
+                'name' => $request->name,
+                'slug' => strtolower(trim(str_replace(' ','_',$request->name))),
+                'status' => 0,
+                'parameters' => json_encode([]),
+                'extra' => json_encode(['delay' => $request->delay]),
+                'input_form' => json_encode($request->userData),
+                'supported_currencies' => json_encode([$request->currency]),
+                'crypto' => 0,
+                'description' => $request->instruction,
+                'is_manual' => 1,
+                'status' => true
+            ]);
+
+            $gatewatCurrency = $method->single_currency()->save(new GatewayCurrency([
+                'name' => $request->name,
+                'currency' => $request->currency,
+                'symbol' => '',
+                'min_amount' => $request->min_limit,
+                'max_amount' => $request->max_limit,
+                'fixed_charge' => $request->fixed_charge,
+                'percentage_charge' => $request->percentage_charge,
+                'rate' => $request->rate,
+                'gateway_parameter' => isset($input_form) ? json_encode($input_form) : "[]",
+            ]));
+
+            if ($request->hasFile('image')) {
+                $filename = '';
+                $path = imagePath()['gateway']['path'];
+                $size = imagePath()['gateway']['size'];
+                $filename = uploadImage($request->image, $path, $size);
+                //Save method image
+                $method->media()->create([
+                    'path' => $path . '/' . $filename,
+                    'size' => $size,
+                    'mime_type' => $request->file('image')->getClientOriginalExtension(),
+                    'type' => 'image',
+                    'is_external' => 0
+                ]);
+                
+                $gatewatCurrency->media()->create([
+                    'path' => $path . '/' . $filename,
+                    'size' => $size,
+                    'mime_type' => $request->file('image')->getClientOriginalExtension(),
+                    'type' => 'image',
+                    'is_external' => 0
+                ]);
+            }
+
+            DB::commit();
+            flash($method->name . "Manual Gateway has been added." , 'success');
+            return redirect()->route('manual-gateway.index');
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -66,9 +135,10 @@ class ManualGatewayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($gateway)
     {
-        //
+        $gateway = Gateway::with(['single_currency', 'media'])->find($gateway);
+        return Inertia::render('Deposit/Create', [ 'gateway' => $gateway ]);
     }
 
     /**
@@ -78,9 +148,68 @@ class ManualGatewayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ManualGatewayRequest $request, $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+            $method = Gateway::find($id);
+            $method->update([
+                'name' => $request->name,
+                'slug' => strtolower(trim(str_replace(' ','_',$request->name))),
+                'parameters' => json_encode([]),
+                'extra' => json_encode(['delay' => $request->delay]),
+                'input_form' => json_encode($request->userData),
+                'supported_currencies' => json_encode([$request->currency]),
+                'crypto' => 0,
+                'description' => $request->instruction,
+                'is_manual' => 1,
+                'status' => true
+            ]);
+
+            $gatewatCurrency = $method->single_currency()->update([
+                'name' => $request->name,
+                'currency' => $request->currency,
+                'symbol' => '',
+                'min_amount' => $request->min_limit,
+                'max_amount' => $request->max_limit,
+                'fixed_charge' => $request->fixed_charge,
+                'percentage_charge' => $request->percentage_charge,
+                'rate' => $request->rate,
+                'gateway_parameter' => isset($input_form) ? json_encode($input_form) : "[]",
+            ]);
+
+            if ($request->hasFile('image')) {
+                $filename = '';
+                $path = imagePath()['gateway']['path'];
+                $size = imagePath()['gateway']['size'];
+                $filename = uploadImage($request->image, $path, $size, $method->media->path);
+                //Save method image
+                $method->media()->create([
+                    'path' => $path . '/' . $filename,
+                    'size' => $size,
+                    'mime_type' => $request->file('image')->getClientOriginalExtension(),
+                    'type' => 'image',
+                    'is_external' => 0
+                ]);
+                
+                $gatewatCurrency->media()->create([
+                    'path' => $path . '/' . $filename,
+                    'size' => $size,
+                    'mime_type' => $request->file('image')->getClientOriginalExtension(),
+                    'type' => 'image',
+                    'is_external' => 0
+                ]);
+            }
+
+            DB::commit();
+            flash($method->name . " Manual Gateway has been added." , 'success');
+            return redirect()->route('manual-gateway.index');
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -91,6 +220,12 @@ class ManualGatewayController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+    }
+
+    public function statusChange(Gateway $gateway){
+        $gateway->status = $gateway->status ? false : true;
+        $gateway->save();
+        return redirect()->back();
     }
 }

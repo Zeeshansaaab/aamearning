@@ -12,7 +12,9 @@
             <h3 class="card-title align-items-center">
                 Manual Gateways
             </h3>
-            <Button @click="openModal()" class="btn-sm p-0 m-0" :smallBtn="true" ><font-awesome-icon icon="plus"/>Add new</Button>
+            <Link :href="route('manual-gateway.create')" class="btn px-3 pt-2 btn-sm p-0 m-0 rounded">
+                <font-awesome-icon icon="plus"/>Add new
+            </Link>
         </div>
         <div class="card-body py-1">
             <div class="table-responsive--sm table-responsive">
@@ -20,9 +22,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Gateway</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Created at</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,19 +31,25 @@
                             <td data-label="Name">
                                 <div class="user">
                                     <div class="thumb">
-                                        <img v-lazy="getImage(gateway.media.path, false, 'thumb', true)" alt="image"></div>
-                                    <span class="name">{{gateway.name}}</span>
+                                        <img v-lazy="getImage(gateway.media?.path, false, 'thumb', gateway.media?.is_external)" alt="image"></div>
+                                        <span class="name">{{gateway.name}}</span>
                                 </div>
-                            </td>
-                            <td data-label="Status">
-                                <span class="badge" :class="getStatusForTable(gateway.status)">{{ getStatusWithBoolean(gateway.status) }}</span>
                             </td>
                             <td data-label="Price" class="font-weight-bold">{{ formatDate(gateway.created_at) }}</td>
                             
                             <td data-label="Action">
-                                <edit-section
-                                    permission="edit_manual_gateway"
-                                    @click="openModal(gateway)"/>
+                                <div class="d-flex" style="width: 50px; margin-right: -100px;">
+                                    <vue-toggle
+                                        title="" 
+                                        name="" 
+                                        :toggled="booleanStatusValue(gateway.status)"
+                                        @toggle="toggle($event, gateway.id)"
+                                    />
+                                    <edit-section
+                                        permission="edit_manual_gateway"
+                                        iconType="link"
+                                        :url="route('manual-gateway.edit', [gateway.id])"/>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -51,7 +58,6 @@
         </div>
         <pagination :meta="gateways" :keyword="searchedKeywords" callType="gateway" />
     </div>      
-    <BonusPlan title="Add Modal"/>
 </Authenticated>
 </template>
 
@@ -59,11 +65,11 @@
 import Helpers from '@/Mixins/Helpers';
 import Authenticated from '../../Layouts/Authenticated.vue';
 import EditSection from '@/Components/EditSection.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 import SearchInput from '@/Components/SearchInput.vue';
 import Pagination from '@/Components/Pagination.vue'
 import Button from '@/Components/Button.vue';
-import BonusPlan from './BonusModal.vue';
+import VueToggle from 'vue-toggle-component';
 export default {
     props: ['gateways' , 'searchKeyword'],
     data(){
@@ -80,7 +86,8 @@ export default {
         SearchInput,
         Pagination,
         Button,
-        BonusPlan
+        Link,
+        VueToggle,
     },
     methods: {
         openModal(bonus = null){
@@ -89,6 +96,9 @@ export default {
                 title: bonus ? "Edit Bonus plan" : 'Add Bonus plan',
                 bonus_plan: bonus 
             });
+        },
+        toggle(e, id){
+            this.$inertia.visit(route('manual-gateway.status', [id]));
         }
     },
     mixins: [Helpers]

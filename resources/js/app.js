@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import VueLazyLoad from 'vue3-lazyload'
 
+import CKEditor from '@ckeditor/ckeditor5-vue';
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 // Sweet Alert
@@ -30,7 +31,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}.vue`),
     setup({ el, app, props, plugin }) {
-        const appVue = createApp({ render: () => h(app, props) })
+        const appVue = createApp({ render: () => h(app, props) }, )
             .use(plugin)
             .mixin({ methods: { route } });
             appVue.config.globalProperties.swal = window.swal;
@@ -38,6 +39,7 @@ createInertiaApp({
             appVue.config.globalProperties.emitter = mitt()
             appVue.use(Notifications)
             appVue.use(VueLazyLoad)
+            appVue.use( CKEditor )
             appVue.component('font-awesome-icon', FontAwesomeIcon)
             appVue.mount(el);
     },

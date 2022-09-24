@@ -34,6 +34,21 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
     </div><!-- body-wrapper end -->
 </div>
 </template>
+<script>
+export default{
+    mounted(){
+        axios.get('/settings')
+        .then(function (response) {
+            localStorage.cur_text = response.data[0].value
+            localStorage.cur_sym = response.data[1].value
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+}
+</script>
+
 <style>
 .dropdown-menu{
     position: relative!important;

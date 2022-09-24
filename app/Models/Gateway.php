@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Gateway extends Model
 {
     use HasFactory;
-
+    protected $guarded = ['id'];
+    protected $casts = [
+        'input_form' => 'array',
+    ];
     public function media()
     {
         return $this->morphOne(Media::class, 'model');
@@ -16,7 +19,7 @@ class Gateway extends Model
 
     public function single_currency()
     {
-        return $this->hasOne(GatewayCurrency::class, 'method_code', 'code')->latest();
+        return $this->hasOne(GatewayCurrency::class)->latest();
     }
 
     public function scopeCrypto()

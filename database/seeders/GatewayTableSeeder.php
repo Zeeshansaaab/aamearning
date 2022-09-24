@@ -136,7 +136,8 @@ class GatewayTableSeeder extends Seeder
                         'parameters' => json_encode($parameters[0]),
                         'supported_currencies' => json_encode($currencies[0]),
                         'crypto' => false,
-                        'is_manual' => false
+                        'is_manual' => false,
+                        'input_form' => json_encode($input_form[0]),
 
                     ],
                     [
@@ -147,7 +148,8 @@ class GatewayTableSeeder extends Seeder
                         'parameters' => json_encode($parameters[1]),
                         'supported_currencies' => json_encode($currencies[1]),
                         'crypto' => false,
-                        'is_manual' => true
+                        'is_manual' => true,
+                        'input_form' => json_encode($input_form[1]),
                     ],
                     [
                         'code' => 1000,
@@ -155,11 +157,11 @@ class GatewayTableSeeder extends Seeder
                         'slug' => 'jazzcash',
                         'status' => true,
                         'description' => '<h3><font face="georgia">Account holder name:</font></h3><div><font face="georgia"><b><font color="#cc3300">Hafiz</font></b> <b><font color="#cc3300">Abdul</font></b> <b><font color="#cc3300">Malik</font></b></font></div><h3><font face="georgia">Send Amount on JazzCash Account # <font color="#cc3300">0304<b style="">-1450855</b></font></font></h3>',
-                        
-                        'parameters' => json_encode($parameters[1]),
-                        'supported_currencies' => json_encode($currencies[1]),
+                        'parameters' => json_encode($parameters[2]),
+                        'supported_currencies' => json_encode($currencies[2]),
                         'crypto' => false,
-                        'is_manual' => true
+                        'is_manual' => true,
+                        'input_form' => json_encode($input_form[2]),
                     ],
                     [
                         'code' => 1001,
@@ -167,26 +169,27 @@ class GatewayTableSeeder extends Seeder
                         'slug' => 'meezan_bank',
                         'status' => true,
                         'description' => '<h3><font face="georgia">Send Amount on Meezan Bank</font></h3><h3><font face="georgia">Account Title: <font color="#ff0033"><b>AAM EXPRESS<br></b></font></font></h3><h3><font face="georgia">Account Number: <font color="#ff0033"><b>05110105443301</b></font></font></h3>',
-                        'parameters' => json_encode($parameters[1]),
-                        'supported_currencies' => json_encode($currencies[1]),
+                        'parameters' => json_encode($parameters[3]),
+                        'supported_currencies' => json_encode($currencies[3]),
                         'crypto' => false,
-                        'is_manual' => true
+                        'is_manual' => true,
+                        'input_form' => json_encode($input_form[3]),
                     ],
                     [
-                        'code' => 1001,
+                        'code' => 1002,
                         'name' => 'Easypaisa',
                         'slug' => 'easypaisa',
                         'status' => true,
                         'description' => '<h3><font face="georgia">Account holder name:</font></h3><div><font face="georgia"><span style="font-weight: bolder;"><font color="#cc3300">Hafiz</font></span>&nbsp;<span style="font-weight: bolder;"><font color="#cc3300">Abdul</font></span>&nbsp;<span style="font-weight: bolder;"><font color="#cc3300">Malik</font></span></font></div><h3><font face="georgia">Send Amount on easypaisa Account #&nbsp;<font color="#cc3300">0304<span style="font-weight: bolder;">-1450855</span></font></font></h3>',
-                        'parameters' => json_encode($parameters[1]),
-                        'supported_currencies' => json_encode($currencies[1]),
+                        'parameters' => json_encode($parameters[4]),
+                        'supported_currencies' => json_encode($currencies[4]),
                         'crypto' => false,
-                        'is_manual' => true
+                        'is_manual' => true,
+                        'input_form' => json_encode($input_form[4]),
                     ],
             ];
         for($i=0; $i < count($data); $i++){ 
             $g = Gateway::create($data[$i]);
-
             $g->media()->create($images[$i]);
         }
     }
