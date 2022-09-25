@@ -59,6 +59,50 @@
                     <span class="menu-title" style="margin-left: 10px;">Permission</span>
                 </Link>
             </li>
+            <li v-if="checkUserPermissions('view_deposit')" class="sidebar-menu-item sidebar-dropdown nav-item dropdown" :class="[route().current('deposit.*', 'deposit') ? 'show' : '']">
+                <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" :class="[route().current('deposit.*', 'deposit') ? 'side-menu--open' : '']">
+                  <font-awesome-icon icon="gear"/>
+                  <span class="menu-title" style="margin-left: 10px;">Deposit</span>
+                </a>
+                <div class="sidebar-submenu dropdown-menu" :class="[route().current('settings.*') ? 'show' : '']">
+                    <ul>
+                        <li class="sidebar-menu-item" :class="[route().current('manual-gateway.*') ? 'active' : '']">
+                            <Link :href="route('manual-gateway.index', 'deposit')" class="text-capitalize">
+                                <font-awesome-icon icon="circle" style="color: #0000ff57; font-size: 10px;" />
+                                <span class="menu-title ml-3">Manual Gateway</span>
+                            </Link>
+                        </li>
+                        <li class="sidebar-menu-item" :class="[route().current('deposit.*') ? 'active' : '']">
+                            <Link :href="route('deposit.index', 'deposit')" class="text-capitalize">
+                                <font-awesome-icon icon="circle" style="color: #0000ff57; font-size: 10px;" />
+                                <span class="menu-title ml-3">Deposits</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li v-if="checkUserPermissions('view_withdrawal')" class="sidebar-menu-item sidebar-dropdown nav-item dropdown" :class="[route().current('manual-gateway.*', ['withdrawal']) ? 'show' : '']">
+                <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" :class="[route().current('manual-gateway.*', ['withdrawal']) ? 'side-menu--open' : '']">
+                  <font-awesome-icon icon="gear"/>
+                  <span class="menu-title" style="margin-left: 10px;">withdrawal</span>
+                </a>
+                <div class="sidebar-submenu dropdown-menu" :class="[route().current('manual-gateway.*', ['withdrawal']) ? 'show' : '']">
+                    <ul>
+                        <li class="sidebar-menu-item" :class="[route().current('manual-gateway.*', ['withdrawal']) ? 'active' : '']">
+                            <Link :href="route('manual-gateway.index', 'withdrawal')" class="text-capitalize">
+                                <font-awesome-icon icon="circle" style="color: #0000ff57; font-size: 10px;" />
+                                <span class="menu-title ml-3">Withdrawal Methods</span>
+                            </Link>
+                        </li>
+                        <li class="sidebar-menu-item" :class="[route().current('withdrawal.*') ? 'active' : '']">
+                            <Link :href="route('deposit.index', 'withdrawal')" class="text-capitalize">
+                                <font-awesome-icon icon="circle" style="color: #0000ff57; font-size: 10px;" />
+                                <span class="menu-title ml-3">Withdrawals</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <li v-if="checkUserPermissions('view_settings')" class="sidebar-menu-item sidebar-dropdown nav-item dropdown" :class="[route().current('settings.*') ? 'show' : '']">
                 <a href="javascript:void(0)" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false" :class="[route().current('settings.*') ? 'active' : '']">
                   <font-awesome-icon icon="gear"/>
@@ -99,11 +143,17 @@ export default {
   },
   methods:{
     getSettings(){
-      axios.get(route('settings'))
-        .then((response) => {
-          this.settings = response.data.data
-      })
+      if(!localStorage.settings){
+        axios.get(route('settings'))
+          .then((response) => {
+            localStorage.settings = JSON.stringify(response.data.data)
+            this.settings = response.data.data
+        })
+      }
     }
+  },
+  beforeMount(){
+    this.settings = localStorage.settings ? JSON.parse(localStorage.settings) : []
   },
   mounted(){
     this.getSettings()

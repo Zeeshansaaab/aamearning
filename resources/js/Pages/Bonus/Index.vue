@@ -2,7 +2,7 @@
     <Head title="Bonus Plans"/>
 <Authenticated>
     <template #breadcrumb>
-        Admin <font-awesome-icon icon="arrow-right"/>Bonus Plans
+        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/>Bonus Plans
     </template>
     <template #breadcrumbplugin>
         <SearchInput :searchedKeyword="searchedKeywords" callType='bonus_plans'/>

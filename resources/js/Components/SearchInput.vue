@@ -41,7 +41,7 @@ export default {
 
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
-                if(this.type == 'user_bonus'){
+                if(this.type == 'user_bonus' || this.type == 'deposit'){
                     this.$inertia.get(
                     route(this.submissionUrl(this.type), {
                         keyword: this.keyword,
@@ -73,6 +73,11 @@ export default {
                     break;
                 case 'users':
                     url = 'users.index';
+                case 'manual_gateway':
+                    url = 'manual-gateway.index';
+                    break;
+                case 'deposit':
+                    url = 'deposit.index';
                     break;
             }
             return url;

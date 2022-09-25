@@ -1,8 +1,8 @@
 <template>
     <Head title="Plans"/>
-<Authenticated>
+<Authenticated> 
     <template #breadcrumb>
-        Admin <font-awesome-icon icon="arrow-right"/> Plans
+        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> Plans
     </template>
     <template #breadcrumbplugin>
         <SearchInput :searchedKeyword="searchedKeywords" callType='plans'/>

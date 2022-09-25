@@ -20,9 +20,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->middleware('guest');
 
-Route::namespace('App\Http\Controllers\Admin')->group(function(){
+Route::middleware(['auth', 'verified'])->prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function(){
 
-    Route::middleware(['auth', 'verified'])->prefix('admin')->group(function(){
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
@@ -38,8 +37,6 @@ Route::namespace('App\Http\Controllers\Admin')->group(function(){
             Route::post('/referral', [\App\Http\Controllers\Admin\AdminController::class, 'referralsUpdate'])->name('referral');
             Route::get('/referral/status/{setting}', [\App\Http\Controllers\Admin\AdminController::class, 'statusChanger'])->name('referral.status');
         });
-        
-    }); // prefix ends 
 
     // Roles
     Route::group(['middleware' => ['can:view_roles']], function () {
@@ -51,8 +48,13 @@ Route::namespace('App\Http\Controllers\Admin')->group(function(){
     Route::resource('user-bonus', App\Http\Controllers\Admin\UserBonusController::class)->only(['index'])->middleware('can:view_user_bonus');
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class)->only(['index', 'update'])->middleware('can:view_users');
     
+    Route::post('user-bonus/changeAll', [App\Http\Controllers\Admin\UserBonusController::class, 'changeAll'])->middleware('can:view_user_bonus')->name('user-bonus.changeAll');
+    Route::resource('{type}/manual-gateway', App\Http\Controllers\Admin\ManualGatewayController::class);
+    Route::get('manual-gateway/status/{gateway}', [App\Http\Controllers\Admin\ManualGatewayController::class, 'statusChange'])->name('manual-gateway.status');
+    Route::resource('{type}/deposit', App\Http\Controllers\Admin\DepositController::class)->only(['index', 'show']);
+    Route::get('deposit/status/{deposit}/{status}', [App\Http\Controllers\Admin\DepositController::class, 'statusChange'])->name('deposit.status');
 });
 
-
+Route::get('cur_settings', [\App\Http\Controllers\Admin\SiteController::class, 'settings'])->name('cur_settings');
 
 require __DIR__.'/auth.php';
