@@ -37,14 +37,16 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
 <script>
 export default{
     mounted(){
-        axios.get('/settings')
-        .then(function (response) {
-            localStorage.cur_text = response.data[0].value
-            localStorage.cur_sym = response.data[1].value
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        if(!localStorage.cur_text){
+            axios.get('/cur_settings')
+            .then(function (response) {
+                localStorage.cur_text = response.data[0].value
+                localStorage.cur_sym = response.data[1].value
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 }
 </script>

@@ -26,7 +26,7 @@ class ManualGatewayController extends Controller
                 $query->where('name', 'LIKE', '%' . request()->keyword .'%');
             }
         })->where('is_manual', 1)->paginate($limit);
-        return Inertia::render('Deposit/Index',[
+        return Inertia::render('Gateway/Index',[
             'gateways' => $gateways,
             'searchKeyword' => request()->keyword,
         ]);
@@ -39,7 +39,7 @@ class ManualGatewayController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Deposit/Create');
+        return Inertia::render('Gateway/Create');
     }
 
     /**
@@ -138,7 +138,7 @@ class ManualGatewayController extends Controller
     public function edit($gateway)
     {
         $gateway = Gateway::with(['single_currency', 'media'])->find($gateway);
-        return Inertia::render('Deposit/Create', [ 'gateway' => $gateway ]);
+        return Inertia::render('Gateway/Create', [ 'gateway' => $gateway ]);
     }
 
     /**

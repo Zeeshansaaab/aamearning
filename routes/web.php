@@ -48,8 +48,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->namespace('App\Http\Co
     Route::post('user-bonus/changeAll', [App\Http\Controllers\Admin\UserBonusController::class, 'changeAll'])->middleware('can:view_user_bonus')->name('user-bonus.changeAll');
     Route::resource('manual-gateway', App\Http\Controllers\Admin\ManualGatewayController::class);
     Route::get('manual-gateway/status/{gateway}', [App\Http\Controllers\Admin\ManualGatewayController::class, 'statusChange'])->name('manual-gateway.status');
+    Route::resource('deposit', App\Http\Controllers\Admin\DepositController::class)->only(['index', 'show']);
+    Route::get('deposit/status/{deposit}/{status}', [App\Http\Controllers\Admin\DepositController::class, 'statusChange'])->name('deposit.status');
 });
 
-Route::get('settings', [\App\Http\Controllers\Admin\SiteController::class, 'settings'])->name('settings');
+Route::get('cur_settings', [\App\Http\Controllers\Admin\SiteController::class, 'settings'])->name('cur_settings');
 
 require __DIR__.'/auth.php';

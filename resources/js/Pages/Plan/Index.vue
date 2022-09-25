@@ -1,6 +1,6 @@
 <template>
     <Head title="Plans"/>
-<Authenticated>
+<Authenticated> 
     <template #breadcrumb>
         Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> Plans
     </template>
