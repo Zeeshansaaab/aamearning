@@ -56,6 +56,11 @@ class RolesAndPermissionSeeder extends Seeder
             ['group'=> 'deposit', 'name' => 'edit_deposit', 'guard_name' => 'web'],
             ['group'=> 'deposit', 'name' => 'create_deposit', 'guard_name' => 'web'],
             ['group'=> 'deposit', 'name' => 'delete_deposit', 'guard_name' => 'web'],
+            //Withdrawal
+            ['group'=> 'withdrawal', 'name' => 'view_withdrawal', 'guard_name' => 'web'],
+            ['group'=> 'withdrawal', 'name' => 'edit_withdrawal', 'guard_name' => 'web'],
+            ['group'=> 'withdrawal', 'name' => 'create_withdrawal', 'guard_name' => 'web'],
+            ['group'=> 'withdrawal', 'name' => 'delete_withdrawal', 'guard_name' => 'web'],
 
         ];
 

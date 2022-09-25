@@ -2,22 +2,22 @@
     <Head title="Manual Gateways"/>
 <Authenticated>
     <template #breadcrumb>
-        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> Manual Gateways
+        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> {{ type }} Gateways
     </template>
     <template #breadcrumbplugin>
         <SearchInput :searchedKeyword="searchedKeywords" callType='manual_gateway'/>
     </template>
     <div class="card">
         <div class="card-header border-0 pt-1 pb-0 mb-0 d-flex justify-content-between" v-if="checkUserPermissions('create_administrators')">
-            <h3 class="card-title align-items-center">
-                Manual Gateways
+            <h3 class="card-title align-items-center text-capitalize">
+                {{ type }} Gateways
             </h3>
-            <Link :href="route('manual-gateway.create')" class="btn px-3 pt-2 btn-sm p-0 m-0 rounded">
+            <Link :href="route('manual-gateway.create', type)" class="btn px-3 pt-2 btn-sm p-0 m-0 rounded">
                 <font-awesome-icon icon="plus"/>Add new
             </Link>
         </div>
         <div class="card-body py-1">
-            <div class="table-responsive--sm table-responsive">
+            <div class="table-responsive--sm table-responsive" v-if="gateways.data.length > 0">
                 <table class="table table--light style--two">
                     <thead>
                         <tr>
@@ -46,15 +46,16 @@
                                         @toggle="toggle($event, gateway.id)"
                                     />
                                     <edit-section
-                                        permission="edit_manual_gateway"
+                                        :permission="['edit_manual_gateway', 'edit_withdrawal']"
                                         iconType="link"
-                                        :url="route('manual-gateway.edit', [gateway.id])"/>
+                                        :url="route('manual-gateway.edit', [type, gateway.id])"/>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <p v-else> No records find </p>
         </div>
         <pagination :meta="gateways" :keyword="searchedKeywords" callType="gateway" />
     </div>      
@@ -71,7 +72,7 @@ import Pagination from '@/Components/Pagination.vue'
 import Button from '@/Components/Button.vue';
 import VueToggle from 'vue-toggle-component';
 export default {
-    props: ['gateways' , 'searchKeyword'],
+    props: ['gateways' , 'searchKeyword', 'type'],
     data(){
         return {
             searchedKeywords: this.searchKeyword,

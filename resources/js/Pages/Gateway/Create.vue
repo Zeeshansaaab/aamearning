@@ -52,6 +52,14 @@
                                                 </div>
                                                 <error :message="form.errors.rate" />
                                             </div>
+
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-15" v-if="type == 'withdrawal'">
+                                                <div class="form-group">
+                                                    <Label value="Processing time" class="required" />
+                                                    <Input :class="{ 'border border-danger' : form.errors.delay }" type="text" v-model="form.delay" placeholder="Processing time" required=""/>
+                                                    <error :message="form.errors.delay" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +197,7 @@ import Button from '@/Components/Button.vue'
 import Helpers from '@/Mixins/Helpers';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
-    props: ['gateway'],
+    props: ['gateway', 'type'],
     components: { Input, Label, Error, Button, Helpers, Authenticated, Head },
     data(){
         return {
@@ -202,9 +210,9 @@ export default {
     methods:{
         submit(){
             if(this.form.id){
-                this.form.put(route('manual-gateway.update', [this.form.id]));
+                this.form.put(route('manual-gateway.update', [this.form.type, this.form.id]));
             }else{
-                this.form.post(route('manual-gateway.store'));
+                this.form.post(route('manual-gateway.store', [this.form.type]));
             }
         },
         addField(){
@@ -231,6 +239,8 @@ export default {
             percentage_charge: this.gateway ? this.gateway.single_currency?.percentage_charge : null,
             instruction: this.gateway?.description ? this.gateway.description : '',
             userData: this.gateway ? JSON.parse(this.gateway.input_form) : [],
+            type: this.gateway ? this.gateway.type : this.type,
+            delay: this.gateway ? this.gateway.delay : null,
         });
     },
     mixins: [Helpers]
