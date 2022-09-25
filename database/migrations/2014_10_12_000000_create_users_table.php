@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('lastname', 40)->nullable();
             $table->string('name', 40)->nullable();
             $table->string('username', 40)->nullable();
+            $table->ipAddress('ip')->nullable();
             $table->string('uuid', 10)->nullable();
             $table->string('user_type', 10)->nullable();
             $table->unsignedBigInteger('ref_by')->nullable();

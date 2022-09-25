@@ -47,7 +47,6 @@
         </div>
         <pagination :meta="bonuses" :keyword="searchedKeywords" callType="bonus_plan" />
     </div>      
-    <BonusPlan title="Add Modal"/>
 </Authenticated>
 </template>
 
@@ -59,7 +58,6 @@ import { Head } from '@inertiajs/inertia-vue3';
 import SearchInput from '@/Components/SearchInput.vue';
 import Pagination from '@/Components/Pagination.vue'
 import Button from '@/Components/Button.vue';
-import BonusPlan from './BonusModal.vue';
 export default {
     props: ['bonuses' , 'searchKeyword'],
     data(){
@@ -75,8 +73,7 @@ export default {
         Head,
         SearchInput,
         Pagination,
-        Button,
-        BonusPlan
+        Button
     },
     methods: {
         openModal(bonus = null){

@@ -71,6 +71,8 @@ export default {
                 case 'user_bonus':
                     url = 'user-bonus.index';
                     break;
+                case 'users':
+                    url = 'users.index';
                 case 'manual_gateway':
                     url = 'manual-gateway.index';
                     break;
