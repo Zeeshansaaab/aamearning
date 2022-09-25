@@ -2,7 +2,7 @@
     <Head title="Referrals"/>
 <Authenticated>
     <template #breadcrumb>
-        Admin <font-awesome-icon icon="arrow-right"/> Ref Commission
+        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> Ref Commission
     </template>
     <div class="row">
         <div class="col-md-6">

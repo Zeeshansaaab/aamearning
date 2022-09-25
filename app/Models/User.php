@@ -73,4 +73,9 @@ class User extends Authenticatable
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }
+
+    public function media()
+    {
+        return $this->morphOne(Media::class, 'model');
+    }
 }

@@ -2,7 +2,7 @@
     <Head title="Administrator"/>
   <Authenticated>
     <template #breadcrumb>
-        Admin <font-awesome-icon icon="arrow-right"/> Administrator
+        Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> Administrator
     </template>
     <template #breadcrumbplugin>
         <SearchInput :searchedKeyword="searchedKeyword" callType='administrators'/>

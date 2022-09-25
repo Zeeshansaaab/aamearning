@@ -52,7 +52,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('ref_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
+            
         });
     }
 

@@ -23,6 +23,7 @@ class UserFactory extends Factory
         return [
             'firstname' => fake()->firstname(),
             'lastname' => fake()->lastname(),
+            'username' => fake()->firstname(),
             'uuid' => \getUserId(),
             'ref_by' => Arr::random(User::all()->pluck('id')->toArray()),
             'country_code' => '+92',

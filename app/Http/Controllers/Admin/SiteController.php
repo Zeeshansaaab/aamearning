@@ -16,7 +16,6 @@ class SiteController extends Controller
     public function getSettings()
     {
         $settings = GeneralSetting::groupBy('group')->orderBy('id')->get();
-        
         return response()->json([
             'status' => JsonResponse::HTTP_OK,
             'data' => $settings,
@@ -50,5 +49,11 @@ class SiteController extends Controller
             DB::rollBack();
             $e->getMessage();
         }
+    }
+
+    public function settings()
+    {
+        $settings = GeneralSetting::whereGroup('currency_setting')->get();
+        return $settings;
     }
 }

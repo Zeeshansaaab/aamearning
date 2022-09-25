@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
         //Admin Roles
         $admins = User::where('user_type', 'admin')->first();
         $adminRole = Role::where('name', 'admin')->first();
-        $adminRole->users()->sync($admins->id);
+        $admins->assignRole('admin');
+        // $adminRole->users()->sync($admins->pluck('id'));
         //Staff Role
         $staffs = User::where('user_type', 'staff')->get();
         $staffRole = Role::where('name', 'staff')->first();
@@ -48,7 +49,8 @@ class DatabaseSeeder extends Seeder
         // }     
         $this->call([
             ReferralsTableSeeder::class,
-            BonusPlanSeeder::class
+            BonusPlanSeeder::class,
+            GatewayTableSeeder::class,
         ]);
 
     }

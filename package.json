@@ -29,6 +29,8 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^35.1.0",
+        "@ckeditor/ckeditor5-vue": "^4.0.1",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@fortawesome/fontawesome-svg-core": "^6.2.0",
         "@fortawesome/free-brands-svg-icons": "^6.2.0",
@@ -59,6 +61,7 @@
         "vue-toggle-component": "^1.0.16",
         "vue3-apexcharts": "^1.4.1",
         "vue3-datepicker": "^0.3.1",
+        "vue3-lazyload": "^0.3.6",
         "vue3-select2-component": "^0.1.7",
         "vue3-timepicker": "^1.0.0-beta.2",
         "vuejs3-datepicker": "^1.0.5",
