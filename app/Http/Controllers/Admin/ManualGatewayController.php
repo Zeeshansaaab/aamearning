@@ -18,10 +18,10 @@ class ManualGatewayController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type)
     {
         $limit = \config()->get('settings.pagination_limit');
-        $gateways = Gateway::with(['media'])->where(function($query){
+        $gateways = Gateway::whereType($type)->with(['media'])->where(function($query){
             if(request()->keyword){
                 $query->where('name', 'LIKE', '%' . request()->keyword .'%');
             }
@@ -29,6 +29,7 @@ class ManualGatewayController extends Controller
         return Inertia::render('Gateway/Index',[
             'gateways' => $gateways,
             'searchKeyword' => request()->keyword,
+            'type' => $type
         ]);
     }
 
@@ -37,9 +38,11 @@ class ManualGatewayController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        return Inertia::render('Gateway/Create');
+        return Inertia::render('Gateway/Create', [
+            'type' => $type,
+        ]);
     }
 
     /**
@@ -48,11 +51,11 @@ class ManualGatewayController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ManualGatewayRequest $request)
+    public function store(ManualGatewayRequest $request, $type)
     {
         try{
             DB::beginTransaction();
-            $last_method = Gateway::manual()->latest()->first();
+            $last_method = Gateway::whereType($type)->manual()->latest()->first();
             $method_code = 1000;
             if ($last_method) {
                 $data['method_code'] = $last_method->code + 1;
@@ -69,7 +72,8 @@ class ManualGatewayController extends Controller
                 'crypto' => 0,
                 'description' => $request->instruction,
                 'is_manual' => 1,
-                'status' => true
+                'status' => true,
+                'type' => $request->type,
             ]);
 
             $gatewatCurrency = $method->single_currency()->save(new GatewayCurrency([
@@ -106,10 +110,9 @@ class ManualGatewayController extends Controller
                     'is_external' => 0
                 ]);
             }
-
             DB::commit();
-            flash($method->name . "Manual Gateway has been added." , 'success');
-            return redirect()->route('manual-gateway.index');
+            flash($method->name . " Manual Gateway has been added." , 'success');
+            return redirect()->route('manual-gateway.index', $type);
         }catch(Exception $e){
             DB::rollBack();
             return response()->json([
@@ -135,9 +138,9 @@ class ManualGatewayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($gateway)
+    public function edit($type, $gateway)
     {
-        $gateway = Gateway::with(['single_currency', 'media'])->find($gateway);
+        $gateway = Gateway::with(['single_currency', 'media'])->findOrFail($gateway);
         return Inertia::render('Gateway/Create', [ 'gateway' => $gateway ]);
     }
 
@@ -148,11 +151,11 @@ class ManualGatewayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ManualGatewayRequest $request, $id)
+    public function update(ManualGatewayRequest $request, $type, $id)
     {
         try{
             DB::beginTransaction();
-            $method = Gateway::find($id);
+            $method = Gateway::findOrFail($id);
             $method->update([
                 'name' => $request->name,
                 'slug' => strtolower(trim(str_replace(' ','_',$request->name))),

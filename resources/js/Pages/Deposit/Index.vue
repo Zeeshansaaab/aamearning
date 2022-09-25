@@ -23,7 +23,7 @@
             <Button @click="openModal()" class="btn-sm p-0 m-0" :smallBtn="true" ><font-awesome-icon icon="plus"/>Add new</Button>
         </div>
         <div class="card-body py-1">
-            <div class="table-responsive--sm table-responsive">
+            <div class="table-responsive--sm table-responsive" v-if="deposits.data.length > 0">
                 <table class="table table--light style--two">
                     <thead>
                         <tr>
@@ -64,6 +64,7 @@
                     </tbody>
                 </table>
             </div>
+            <p v-else class="ml-4"> No records find </p>
         </div>
         <pagination :meta="deposits" :keyword="searchedKeywords" callType="deposits" />
     </div>      
@@ -79,7 +80,7 @@ import SearchInput from '@/Components/SearchInput.vue';
 import Pagination from '@/Components/Pagination.vue'
 import Button from '@/Components/Button.vue';
 export default {
-    props: ['deposits' , 'searchKeyword', 'filterStatus'],
+    props: ['deposits' , 'searchKeyword', 'filterStatus', 'type'],
     data(){
         return {
             searchedKeywords: this.searchKeyword,
@@ -98,7 +99,7 @@ export default {
     },
     methods: {
         filters(){
-            this.$inertia.get(route('deposit.index'), {
+            this.$inertia.get(route('deposit.index', type), {
                 status:  this.status,
                 keyword: this.keyword
             })

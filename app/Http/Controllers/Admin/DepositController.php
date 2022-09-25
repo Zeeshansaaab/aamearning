@@ -14,10 +14,12 @@ class DepositController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type)
     {
         $limit = \config()->get('settings.pagination_limit');
-        $deposits = Deposit::with(['gateway', 'user'])->latest()->where(function($query){
+        $deposits = Deposit::with(['gateway' => function($query) use($type){
+                $query->whereType($type);
+        }, 'user'])->latest()->where(function($query){
             if(request()->keyword){
                 $query->whereHas('user', function($query){
                     $query->where('name', 'LIKE', '%' . request()->keyword .'%')
@@ -31,7 +33,8 @@ class DepositController extends Controller
         return Inertia::render('Deposit/Index', [
             'deposits' => $deposits,
             'searchKeyword' => request()->keyword,
-            'filterStatus' => request()->status
+            'filterStatus' => request()->status,
+            'type' => $type
         ]);
     }
 
@@ -62,13 +65,13 @@ class DepositController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($type, $id)
     {
         $deposit = Deposit::with(['user', 'media', 
                 'gateway' => function($query){
                     $query->with(['single_currency' => function($query){ $query->with('media'); }]);
-                }])->first();
-        return Inertia::render('Deposit/Details', ['deposit' => $deposit]);
+                }])->firstOrFail();
+        return Inertia::render('Deposit/Details', ['deposit' => $deposit, 'type' => $type]);
     }
 
     /**

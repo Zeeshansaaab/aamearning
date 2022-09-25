@@ -18,9 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('code')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->enum('type', ['deposit', 'withdrawal']);
             $table->string('description', 600)->nullable();
             $table->boolean('crypto')->nullable();
             $table->boolean('status')->default(true);
+            $table->string('delay')->default(true);
             $table->boolean('is_manual')->default(1);
             $table->json('parameters')->nullable();
             $table->json('supported_currencies')->nullable();

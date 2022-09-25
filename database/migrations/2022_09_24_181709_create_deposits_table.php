@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('trx');
             $table->string('admin_feedback');
             $table->integer('try');
-            $table->enum('status', ['active', 'inactive', 'pending'])->default(true);
+            $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
             $table->timestamps();
 
             $table->foreign('user_id')->on('users')->references('id');
