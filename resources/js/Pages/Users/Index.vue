@@ -1,5 +1,5 @@
 <template>
-    <Head title="Manage Users"/>
+<Head title="Manage Users"/>
 <Authenticated>
     <template #breadcrumb>
         Admin <font-awesome-icon icon="arrow-right"/>Manage Users
@@ -43,8 +43,9 @@
                             
                             <td data-label="Action">
                                 <edit-section
-                                    permission="edit_administrators"
-                                    @click="openModal(user)"/>
+                                    permission="edit_users"
+                                    iconType="link"
+                                    :url="route('users.edit', [ user.id ])"/>
                             </td>
                         </tr>
                     </tbody>

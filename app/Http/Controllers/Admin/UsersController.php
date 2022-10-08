@@ -71,7 +71,10 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::with('media')->findOrFail($id);
+        return Inertia::render('Users/Details', [
+            'user' => $user,
+        ]);
     }
 
     /**

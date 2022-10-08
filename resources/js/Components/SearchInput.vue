@@ -21,7 +21,7 @@ import Input from '@/Components/Input.vue';
 import Helpers from '@/Mixins/Helpers'
 
 export default {
-    props: ['callType', 'searchedKeyword', 'status'],
+    props: ['callType', 'searchedKeyword', 'status', 'types'],
     components: { Input },  
     data() {
         return {
@@ -38,12 +38,17 @@ export default {
             {
                 filterKeyword: this.keyword,
             })
-
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
-                if(this.type == 'user_bonus' || this.type == 'deposit'){
+                if(this.type == 'user_bonus'){
                     this.$inertia.get(
                     route(this.submissionUrl(this.type), {
+                        keyword: this.keyword,
+                        status: this.status
+                    }));
+                }else if(this.type == 'manual_gateway' || this.type == 'deposit'){
+                    this.$inertia.get(
+                    route(this.submissionUrl(this.type), [ types ], {
                         keyword: this.keyword,
                         status: this.status
                     }));
@@ -73,6 +78,7 @@ export default {
                     break;
                 case 'users':
                     url = 'users.index';
+                    break
                 case 'manual_gateway':
                     url = 'manual-gateway.index';
                     break;

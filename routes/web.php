@@ -21,7 +21,6 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function(){
-
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
@@ -46,7 +45,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->namespace('App\Http\Co
     Route::resource('administrators', AdministratorController::class)->middleware('can:view_administrators');
     Route::resource('bonus-plans', App\Http\Controllers\Admin\BonusPlanController::class)->only(['index', 'store'])->middleware('can:view_administrators');
     Route::resource('user-bonus', App\Http\Controllers\Admin\UserBonusController::class)->only(['index'])->middleware('can:view_user_bonus');
-    Route::resource('users', App\Http\Controllers\Admin\UsersController::class)->only(['index', 'update'])->middleware('can:view_users');
+    Route::resource('users', App\Http\Controllers\Admin\UsersController::class)->only(['index', 'update', 'edit'])->middleware('can:view_users');
     
     Route::post('user-bonus/changeAll', [App\Http\Controllers\Admin\UserBonusController::class, 'changeAll'])->middleware('can:view_user_bonus')->name('user-bonus.changeAll');
     Route::resource('{type}/manual-gateway', App\Http\Controllers\Admin\ManualGatewayController::class);
