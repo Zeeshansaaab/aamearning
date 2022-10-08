@@ -135,7 +135,7 @@ export default {
                 })
         },
         filters(){
-            this.$inertia.get(route('user-bonus.index'), {
+            this.$inertia.replace(route('user-bonus.index'), {
                 status:  this.status,
                 keyword: this.keyword
             })

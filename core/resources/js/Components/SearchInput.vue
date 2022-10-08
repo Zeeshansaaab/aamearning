@@ -42,13 +42,13 @@ export default {
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 if(this.type == 'user_bonus'){
-                    this.$inertia.get(
+                    this.$inertia.replace(
                     route(this.submissionUrl(this.type), {
                         keyword: this.keyword,
                         status: this.status
                     }));
                 }else{
-                    this.$inertia.get(
+                    this.$inertia.replace(
                     route(this.submissionUrl(this.type), {
                         keyword: this.keyword,
                     }));
