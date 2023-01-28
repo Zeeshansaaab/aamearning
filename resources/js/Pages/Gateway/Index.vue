@@ -5,7 +5,7 @@
         Admin <font-awesome-icon class="px-1"  icon="arrow-right"/> {{ type }} Gateways
     </template>
     <template #breadcrumbplugin>
-        <SearchInput :searchedKeyword="searchedKeywords" callType='manual_gateway'/>
+        <SearchInput :searchedKeyword="searchedKeywords" callType='manual_gateway' :type="type"/>
     </template>
     <div class="card">
         <div class="card-header border-0 pt-1 pb-0 mb-0 d-flex justify-content-between" v-if="checkUserPermissions('create_administrators')">
